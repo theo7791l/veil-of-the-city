@@ -40,7 +40,31 @@ html, body {
   pointer-events: all;
 }
 
-/* HUD */
+/* ─── Screens ─────────────────────────────────────────────────────────── */
+.screen {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+/* BUG FIX : .hidden utilise display:none, pas visibility (PauseMenu) */
+.screen.hidden { display: none !important; }
+
+.menu-bg {
+  background: radial-gradient(ellipse at 50% 60%, rgba(20,15,8,0.97) 0%, rgba(5,4,2,0.99) 100%);
+}
+
+.pause-overlay {
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+}
+
+/* ─── HUD ─────────────────────────────────────────────────────────────── */
 .hud-container {
   position: absolute;
   width: 100%;
@@ -85,13 +109,8 @@ html, body {
   transition: width 0.15s ease;
 }
 
-.bar-fill.health {
-  background: linear-gradient(90deg, #c0392b, #e74c3c);
-}
-
-.bar-fill.energy {
-  background: linear-gradient(90deg, #1a6b8a, #3498db);
-}
+.bar-fill.health { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+.bar-fill.energy { background: linear-gradient(90deg, #1a6b8a, #3498db); }
 
 .hud-top-center {
   position: absolute;
@@ -144,11 +163,11 @@ html, body {
 }
 
 .detection-dot.suspicious { background: #f39c12; }
-.detection-dot.detected { background: #e74c3c; animation: pulse 0.5s infinite; }
+.detection-dot.detected   { background: #e74c3c; animation: pulse 0.5s infinite; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.3); }
+  50%       { opacity: 0.5; transform: scale(1.3); }
 }
 
 .alert-level {
@@ -157,7 +176,7 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* Crosshair */
+/* ─── Crosshair ───────────────────────────────────────────────────────── */
 .crosshair {
   position: absolute;
   top: 50%;
@@ -175,21 +194,10 @@ html, body {
   border-radius: 1px;
 }
 
-.crosshair::before {
-  width: 2px;
-  height: 16px;
-  top: 0;
-  left: 7px;
-}
+.crosshair::before { width: 2px;  height: 16px; top: 0;  left: 7px; }
+.crosshair::after  { width: 16px; height: 2px;  top: 7px; left: 0; }
 
-.crosshair::after {
-  width: 16px;
-  height: 2px;
-  top: 7px;
-  left: 0;
-}
-
-/* Context prompts */
+/* ─── Context prompts ─────────────────────────────────────────────────── */
 .context-prompt {
   position: absolute;
   bottom: 120px;
@@ -207,12 +215,9 @@ html, body {
   backdrop-filter: blur(4px);
 }
 
-.context-key {
-  color: #f0c040;
-  font-weight: bold;
-}
+.context-key { color: #f0c040; font-weight: bold; }
 
-/* Echo vision overlay */
+/* ─── Echo vision overlay ─────────────────────────────────────────────── */
 .echo-overlay {
   position: absolute;
   top: 0; left: 0;
@@ -226,24 +231,7 @@ html, body {
 
 .echo-overlay.active { opacity: 1; }
 
-/* Menus */
-.screen {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: all;
-}
-
-.screen.hidden { display: none; }
-
-.menu-bg {
-  background: radial-gradient(ellipse at 50% 60%, rgba(20,15,8,0.97) 0%, rgba(5,4,2,0.99) 100%);
-}
-
+/* ─── Menu / title ────────────────────────────────────────────────────── */
 .title-logo {
   font-size: 52px;
   font-weight: 100;
@@ -305,13 +293,7 @@ html, body {
   margin: 20px 0;
 }
 
-/* Pause overlay */
-.pause-overlay {
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(6px);
-}
-
-/* End screen */
+/* ─── End screen ──────────────────────────────────────────────────────── */
 .end-screen-stats {
   display: grid;
   grid-template-columns: auto auto;
@@ -331,7 +313,7 @@ html, body {
   margin: 10px 0;
 }
 
-/* Controls help */
+/* ─── Controls help ───────────────────────────────────────────────────── */
 .help-panel {
   position: absolute;
   bottom: 32px;
@@ -353,13 +335,9 @@ html, body {
   color: #9a8b6a;
 }
 
-.help-key {
-  color: #c8b47a;
-  font-weight: bold;
-  min-width: 60px;
-}
+.help-key { color: #c8b47a; font-weight: bold; min-width: 60px; }
 
-/* Debug overlay */
+/* ─── Debug panel ─────────────────────────────────────────────────────── */
 .debug-panel {
   position: absolute;
   top: 10px;
@@ -372,9 +350,10 @@ html, body {
   border-radius: 3px;
   line-height: 1.6;
   pointer-events: none;
+  z-index: 100;
 }
 
-/* Notifications */
+/* ─── Notifications ───────────────────────────────────────────────────── */
 .notification {
   position: absolute;
   top: 80px;
@@ -387,16 +366,17 @@ html, body {
   letter-spacing: 1px;
   animation: notifSlide 3s ease forwards;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 @keyframes notifSlide {
-  0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-  15% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  80% { opacity: 1; }
+  0%   { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  15%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80%  { opacity: 1; }
   100% { opacity: 0; }
 }
 
-/* Settings panel */
+/* ─── Settings ────────────────────────────────────────────────────────── */
 .settings-grid {
   display: grid;
   grid-template-columns: auto auto;
@@ -442,7 +422,7 @@ select {
   outline: none;
 }
 
-/* Scrollbar */
+/* ─── Scrollbar ───────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(200,170,80,0.3); border-radius: 2px; }
